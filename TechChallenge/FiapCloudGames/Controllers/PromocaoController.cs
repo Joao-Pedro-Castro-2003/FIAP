@@ -18,7 +18,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Post([FromBody] PromocaoInput input)
+        public IActionResult CriarPromocao([FromBody] PromocaoInput input)
         {
             try
             {

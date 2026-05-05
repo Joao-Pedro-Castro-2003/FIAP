@@ -1,9 +1,10 @@
 ﻿using Core.Dto;
+using Core.Input;
 
 namespace Core.Repository
 {
     public interface IAuthRepository
     {
-        string Login(LoginDto loginDto);
+        string Login(LoginInput input);
     }
 }

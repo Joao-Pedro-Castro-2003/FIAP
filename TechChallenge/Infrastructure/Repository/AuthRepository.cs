@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Core.Dto;
+using Core.Input;
 
 namespace Infrastructure.Repository
 {
@@ -21,12 +22,12 @@ namespace Infrastructure.Repository
             _configuration = configuration;
         }
 
-        public string Login(LoginDto loginDto)
+        public string Login(LoginInput input)
         {
             var usuario = _context.Usuario
-                .FirstOrDefault(x => x.Email == loginDto.Email);
+                .FirstOrDefault(x => x.Email == input.Email);
 
-            if (usuario == null || usuario.Senha != loginDto.Senha)
+            if (usuario == null || usuario.Senha != input.Senha)
                 throw new UnauthorizedAccessException("Email ou senha inválidos");
 
             return GerarToken(usuario);
