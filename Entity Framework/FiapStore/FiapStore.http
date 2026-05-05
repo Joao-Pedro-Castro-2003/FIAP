@@ -1,6 +1,0 @@
-@FiapStore_HostAddress = http://localhost:5063
-
-GET {{FiapStore_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
