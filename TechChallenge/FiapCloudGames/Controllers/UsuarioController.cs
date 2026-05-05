@@ -20,7 +20,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Post([FromBody] UsuarioInput usuarioInput)
+        public IActionResult CadastrarUsuario([FromBody] UsuarioInput usuarioInput)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult BuscarTodosUsuarios()
         {
             try
             {
@@ -70,7 +70,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
-        public IActionResult Get([FromRoute] int id)
+        public IActionResult BuscarUsuarioPorId([FromRoute] int id)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        public IActionResult Put([FromBody] UsuarioUpdateInput input)
+        public IActionResult AtualizarUsuario([FromBody] UsuarioUpdateInput input)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+        public IActionResult DeletarUsuario([FromRoute] int id)
         {
             try
             {

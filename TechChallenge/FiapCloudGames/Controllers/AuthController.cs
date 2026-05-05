@@ -1,5 +1,4 @@
-﻿using Core.Dto;
-using Core.Entity;
+﻿using Core.Input;
 using Core.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +17,11 @@ namespace FiapCloudGames.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login([FromBody] LoginDto LoginDto)
+        public IActionResult Login([FromBody] LoginInput input)
         {
             try
             {
-                var token = _authRepository.Login(LoginDto);
+                var token = _authRepository.Login(input);
                 return Ok(token);
             }
             catch (UnauthorizedAccessException ex)

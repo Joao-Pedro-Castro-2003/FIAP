@@ -1,4 +1,5 @@
 ﻿using Core.Dto;
+using Core.Entity;
 using Core.Repository;
 
 namespace Infrastructure.Repository
@@ -14,12 +15,38 @@ namespace Infrastructure.Repository
 
         public void AdicionarJogo(int usuarioId, int jogoId)
         {
-            throw new NotImplementedException();
+            if(UsuarioPossuiJogo(usuarioId, jogoId))
+                throw new Exception("Este jogo já está na biblioteca do usuário.");
+
+            var biblioteca = new Biblioteca
+            {
+                UsuarioId = usuarioId,
+                JogoId = jogoId,
+                DataAquisicao = DateTime.Now
+            };
+
+            _context.Add(biblioteca);
+            _context.SaveChanges();
         }
 
-        public IList<JogoDisponivelDto> ObterBibliotecaUsuario(int usuarioId)
+        public ICollection<BibliotecaDto> ObterBibliotecaUsuario(int usuarioId)
         {
-            throw new NotImplementedException();
+            return _context.Biblioteca
+                .Where(b => b.UsuarioId == usuarioId)
+                .Select(b => new BibliotecaDto
+                {
+                    UsuarioId = b.UsuarioId,
+                    JogoId = b.JogoId,
+                    NomeJogo = b.Jogo.Nome,
+                    DataAquisicao = b.DataAquisicao
+                })
+                .ToList(); 
+        }
+
+        public bool UsuarioPossuiJogo(int usuarioId, int jogoId)
+        {
+            return _context.Biblioteca
+                .Any(b => b.UsuarioId == usuarioId && b.JogoId == jogoId);
         }
     }
 }

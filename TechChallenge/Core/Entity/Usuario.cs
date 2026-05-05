@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Core.Entity
+﻿namespace Core.Entity
 {
     public class Usuario : EntityBase
     {
@@ -9,10 +7,5 @@ namespace Core.Entity
         public required string Senha { get; set; }
         public bool IsAdmin { get; set; }
         public ICollection<Biblioteca> Biblioteca { get; set; }
-
-        public Usuario()
-        {
-            
-        }
     }
 }

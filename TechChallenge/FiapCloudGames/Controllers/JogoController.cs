@@ -18,7 +18,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Post([FromBody] JogoInput jogoInput)
+        public IActionResult CadastrarJogo([FromBody] JogoInput jogoInput)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace FiapCloudGames.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+        public IActionResult DeletarJogo([FromRoute] int id)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace FiapCloudGames.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult BuscarJogos()
         {
             try
             {

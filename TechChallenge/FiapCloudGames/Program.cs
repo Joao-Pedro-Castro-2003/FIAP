@@ -1,4 +1,5 @@
 using Core.Repository;
+using FiapCloudGames.Middlewares;
 using FiapCloudGames.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -13,12 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+
 #region Validators
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<UsuarioInputValidator>();
 #endregion
 
+
 builder.Services.AddEndpointsApiExplorer();
+
 
 #region Swagger JWT
 builder.Services.AddSwaggerGen(options =>
@@ -50,13 +54,19 @@ builder.Services.AddSwaggerGen(options =>
 });
 #endregion
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
+
+#region Injeção de Dependência
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IJogoRepository, JogoRepository>();
 builder.Services.AddScoped<IPromocaoRepository, PromocaoRepository>();
+builder.Services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
+#endregion
+
 
 #region JWT
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -87,6 +97,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 #endregion
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -94,6 +105,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

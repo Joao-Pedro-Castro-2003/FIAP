@@ -4,6 +4,7 @@ using Core.Repository;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FiapCloudGames.Controllers
 {
@@ -17,18 +18,31 @@ namespace FiapCloudGames.Controllers
             _bibliotecaRepository = bibliotecaoRepository;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPost]
-        public IActionResult Post([FromRoute] int usuarioId, int jogoId)
+        public IActionResult AdicionarJogoNaBibliotecaDoUsuarioLogado([FromBody] BibliotecaInput input)
         {
             try
             {
-                return Ok();
+                var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+                _bibliotecaRepository.AdicionarJogo(usuarioId, input.JogoId);
+
+                return Ok("Jogo adicionado a biblioteca");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult BuscarBibliotecaDoUsuarioLogado()
+        {
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            return Ok(_bibliotecaRepository.ObterBibliotecaUsuario(usuarioId));
         }
     }
 }
